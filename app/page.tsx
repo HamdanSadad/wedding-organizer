@@ -148,8 +148,8 @@ function HeaderNavbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 pt-4 px-4 transition-all duration-500">
       <div className={`mx-auto max-w-6xl transition-all duration-500 ${isScrolled
-          ? "glassmorphism rounded-full px-6 py-3"
-          : "bg-transparent px-4 py-4"
+        ? "glassmorphism rounded-full px-6 py-3"
+        : "bg-transparent px-4 py-4"
         } flex items-center justify-between`}>
 
         <a href="#hero" className="flex items-center gap-2 cursor-pointer group">
@@ -173,8 +173,8 @@ function HeaderNavbar() {
           <a
             href="#contact"
             className={`px-6 py-2.5 rounded-full text-xs tracking-widest font-bold transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 ${isScrolled
-                ? "bg-secondary text-white hover:bg-neutral hover:text-white"
-                : "bg-white text-neutral hover:bg-secondary hover:text-white"
+              ? "bg-secondary text-white hover:bg-neutral hover:text-white"
+              : "bg-white text-neutral hover:bg-secondary hover:text-white"
               }`}
           >
             Konsultasi
@@ -471,8 +471,8 @@ function ServicesSection() {
                 transition={{ duration: 0.8, delay: idx * 0.1 }}
                 whileHover={{ scale: 1.03, y: -10 }}
                 className={`relative h-full p-8 md:p-10 rounded-3xl transition-all duration-300 border-2 ${pkg.isPopular
-                    ? 'bg-neutral text-primary border-neutral shadow-2xl shadow-neutral/30'
-                    : 'bg-white text-neutral border-transparent shadow-lg hover:shadow-2xl hover:border-secondary'
+                  ? 'bg-neutral text-primary border-neutral shadow-2xl shadow-neutral/30'
+                  : 'bg-white text-neutral border-transparent shadow-lg hover:shadow-2xl hover:border-secondary'
                   }`}
               >
                 {pkg.isPopular && (
@@ -740,8 +740,8 @@ function Footer() {
             <span className="font-serif text-4xl font-bold text-primary mb-6 block">Dxuan.</span>
             <p className="text-white/70 text-base font-medium leading-relaxed mb-8 pr-6">Mendefinisikan ulang kemewahan pernikahan. Keanggunan yang diceritakan lewat detail sempurna.</p>
             <div className="flex gap-4">
-              <a href="#" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-colors"><InstagramIcon className="w-5 h-5" /></a>
-              <a href="#" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-colors"><GithubIcon className="w-5 h-5" /></a>
+              <a href="https://www.instagram.com/hamdannn_s" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-colors"><InstagramIcon className="w-5 h-5" /></a>
+              <a href="https://github.com/HamdanSadad" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white transition-colors"><GithubIcon className="w-5 h-5" /></a>
             </div>
           </div>
           <div>
