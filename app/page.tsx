@@ -24,7 +24,6 @@ const GithubIcon = ({ className }: { className?: string }) => (
 function StarParticles() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-
   if (!mounted) return null;
 
   return (
@@ -36,23 +35,17 @@ function StarParticles() {
             key={i}
             className="absolute bg-white rounded-full"
             style={{
-              width: size,
-              height: size,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
+              width: size, height: size,
+              top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%`,
               boxShadow: "0 0 10px 2px rgba(255,255,255,0.8)"
             }}
             animate={{
-              y: [0, -40, 0],
-              x: [0, Math.random() * 20 - 10, 0],
-              scale: [1, 1.5, 1],
-              opacity: [0.3, 1, 0.3]
+              y: [0, -40, 0], x: [0, Math.random() * 20 - 10, 0],
+              scale: [1, 1.5, 1], opacity: [0.3, 1, 0.3]
             }}
             transition={{
-              duration: Math.random() * 5 + 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: Math.random() * 2
+              duration: Math.random() * 5 + 3, repeat: Infinity,
+              ease: "easeInOut", delay: Math.random() * 2
             }}
           />
         );
@@ -67,7 +60,6 @@ function StarParticles() {
 function BubbleParticles() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-
   if (!mounted) return null;
 
   return (
@@ -79,20 +71,15 @@ function BubbleParticles() {
             key={i}
             className="absolute rounded-full bg-secondary/40"
             style={{
-              width: size,
-              height: size,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
+              width: size, height: size,
+              top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%`,
             }}
             animate={{
-              y: [0, -100, 0],
-              x: [0, Math.random() * 50 - 25, 0],
+              y: [0, -100, 0], x: [0, Math.random() * 50 - 25, 0],
               opacity: [0.2, 0.8, 0.2]
             }}
             transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "easeInOut"
+              duration: Math.random() * 10 + 10, repeat: Infinity, ease: "easeInOut"
             }}
           />
         );
@@ -328,10 +315,18 @@ function AboutSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1 }}
-            className="relative h-[500px] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)]"
+            className="relative h-[350px] md:h-[500px] w-full rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] group"
           >
-            <Image src="/images/about.png" alt="Tentang Dxuan Wedding" fill className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+            <Image src="/images/about.png" alt="Tentang Dxuan Wedding" fill className="object-cover group-hover:scale-105 transition-transform duration-1000" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+
+            {/* Interactive Badge for Mobile/Desktop */}
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+              className="absolute bottom-6 left-6 md:bottom-10 md:left-10 bg-white/20 backdrop-blur-md border border-white/30 text-white p-4 rounded-2xl shadow-xl flex items-center gap-4"
+            >
+            </motion.div>
           </motion.div>
         </div>
       </div>
@@ -365,12 +360,7 @@ function GoodDateSection() {
         "Tanggal yang sangat romantis. Posisi bintang-bintang mendukung awal baru yang harmonis dan penuh gairah.",
         "Pilihan cerdas! Tanggal ini memiliki resonansi energi positif yang luar biasa untuk sebuah ikatan suci.",
         "Hari yang memancarkan aura emas. Pernikahan di tanggal ini akan dipenuhi dengan kemakmuran dan tawa.",
-        "Angka-angka pada tanggal ini menyimbolkan keabadian dan kesetiaan tanpa batas. Pilihan yang sangat tepat!",
-        "Wah, ini adalah 'Golden Date'! Tanggal langka yang menjanjikan keharmonisan dan kedamaian sepanjang masa.",
-        "Sangat elegan. Tanggal ini memberikan nuansa klasik yang tak lekang oleh waktu untuk hari bahagia Anda.",
-        "Ini adalah hari di mana keajaiban sering terjadi. Persiapkan diri Anda untuk momen magis yang tak terlupakan.",
-        "Pilihan yang merepresentasikan keseimbangan. Hari yang pas untuk dua jiwa yang menyatu menjadi satu.",
-        "Tanggal yang luar biasa manis! Cocok sekali dengan tema pernikahan impian yang telah Anda rancang."
+        "Angka-angka pada tanggal ini menyimbolkan keabadian dan kesetiaan tanpa batas. Pilihan yang sangat tepat!"
       ];
       setResult(responses[Math.floor(Math.random() * responses.length)]);
     }, 1500);
@@ -506,9 +496,10 @@ function ServicesSection() {
 }
 
 // ======================
-// 6. GALLERY (With Lightbox)
+// 6. GALLERY (Infinite Scroll Right)
 // ======================
 function PortfolioSection() {
+  const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const images = [
     "/images/portfolio_1.png",
     "/images/portfolio_2.png",
@@ -516,34 +507,34 @@ function PortfolioSection() {
     "/images/portfolio_4.png",
   ];
 
-  const [selectedImg, setSelectedImg] = useState<string | null>(null);
-
   return (
-    <section id="portfolio" className="py-20 md:py-32 bg-primary">
+    <section id="portfolio" className="py-20 md:py-32 bg-primary overflow-hidden">
       <div className="mx-auto max-w-6xl px-6 text-center mb-16">
         <p className="text-xs uppercase tracking-[0.2em] text-secondary font-extrabold mb-4">Portofolio</p>
         <h2 className="font-serif font-bold text-4xl md:text-6xl text-neutral">Galeri Keabadian</h2>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="columns-1 md:columns-2 lg:columns-4 gap-4 space-y-4">
-          {images.map((src, idx) => (
-            <motion.div
+      <div className="relative w-full flex overflow-hidden">
+        {/* We animate to x:0 from x:-50% to move RIGHT infinitely */}
+        <motion.div
+          className="flex whitespace-nowrap"
+          animate={{ x: ["-50%", "0%"] }}
+          transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
+        >
+          {/* We repeat the image array multiple times so there's never a gap */}
+          {[...images, ...images, ...images, ...images].map((src, idx) => (
+            <div
               key={idx}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="relative rounded-2xl overflow-hidden cursor-pointer group break-inside-avoid shadow-lg"
+              className="relative w-[85vw] h-[50vh] md:w-[400px] md:h-[600px] shrink-0 mx-2 md:mx-4 rounded-3xl overflow-hidden cursor-pointer group"
               onClick={() => setSelectedImg(src)}
             >
-              <Image src={src} alt="Galeri" width={600} height={800} className="w-full object-cover group-hover:scale-110 transition-transform duration-700" />
+              <Image src={src} alt="Galeri" fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
               <div className="absolute inset-0 bg-neutral/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
                 <span className="bg-white text-neutral px-8 py-3 rounded-full text-xs font-extrabold tracking-widest uppercase shadow-2xl">Lihat Detail</span>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       <AnimatePresence>
@@ -553,7 +544,7 @@ function PortfolioSection() {
             className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
             onClick={() => setSelectedImg(null)}
           >
-            <button className="absolute top-6 right-6 text-white hover:text-secondary bg-white/10 p-3 rounded-full backdrop-blur-md transition-colors">
+            <button className="absolute top-6 right-6 text-white hover:text-secondary bg-white/10 p-3 rounded-full backdrop-blur-md transition-colors z-10">
               <X className="w-8 h-8" />
             </button>
             <motion.div
@@ -571,7 +562,7 @@ function PortfolioSection() {
 }
 
 // ======================
-// 7. PROCESS (Flowchart Style)
+// 7. PROCESS
 // ======================
 function ProcessSection() {
   const steps = [
@@ -590,7 +581,6 @@ function ProcessSection() {
         </div>
 
         <div className="relative">
-          {/* Connecting line for Desktop */}
           <div className="hidden lg:block absolute top-1/2 left-0 w-full h-[3px] bg-secondary/20 -translate-y-1/2 z-0 rounded-full"></div>
 
           <div className="grid lg:grid-cols-4 gap-8 lg:gap-4 relative z-10">
@@ -658,7 +648,17 @@ function FaqSection() {
     { q: "Apakah melayani luar kota/negeri?", a: "Tentu. Kami memiliki tim khusus untuk destination wedding di seluruh Indonesia dan luar negeri." },
     { q: "Apakah ada biaya konsultasi awal?", a: "Konsultasi pertama kami gratis. Mari bertemu, minum teh, dan membahas impian Anda." },
   ];
-  const [open, setOpen] = useState<number | null>(0);
+
+  // Can open multiple at once
+  const [openItems, setOpenItems] = useState<number[]>([0]);
+
+  const toggle = (idx: number) => {
+    if (openItems.includes(idx)) {
+      setOpenItems(openItems.filter(i => i !== idx));
+    } else {
+      setOpenItems([...openItems, idx]);
+    }
+  };
 
   return (
     <section className="py-20 md:py-32 bg-primary">
@@ -667,12 +667,15 @@ function FaqSection() {
         <div className="space-y-6">
           {faqs.map((f, i) => (
             <div key={i} className="border-2 border-neutral/10 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
-              <button className="w-full px-8 py-6 text-left flex justify-between items-center bg-white hover:bg-alt/50 transition-colors" onClick={() => setOpen(open === i ? null : i)}>
+              <button
+                className="w-full px-8 py-6 text-left flex justify-between items-center bg-white hover:bg-alt/50 transition-colors"
+                onClick={() => toggle(i)}
+              >
                 <span className="font-serif font-bold text-2xl text-neutral pr-4">{f.q}</span>
-                {open === i ? <Minus className="w-6 h-6 text-secondary shrink-0" /> : <Plus className="w-6 h-6 text-neutral/50 shrink-0" />}
+                {openItems.includes(i) ? <Minus className="w-6 h-6 text-secondary shrink-0" /> : <Plus className="w-6 h-6 text-neutral/50 shrink-0" />}
               </button>
               <AnimatePresence>
-                {open === i && (
+                {openItems.includes(i) && (
                   <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden bg-alt/30">
                     <p className="px-8 pb-8 pt-2 text-neutral/80 font-medium text-lg leading-relaxed">{f.a}</p>
                   </motion.div>
@@ -690,17 +693,26 @@ function FaqSection() {
 // 10. CONTACT
 // ======================
 function ContactSection() {
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowPopup(true);
+    // Auto close popup after 4 seconds
+    setTimeout(() => setShowPopup(false), 4000);
+  };
+
   return (
-    <section id="contact" className="py-20 md:py-32 bg-alt border-t border-neutral/10">
+    <section id="contact" className="py-20 md:py-32 bg-alt border-t border-neutral/10 relative">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="grid md:grid-cols-2 gap-16 lg:gap-24 items-center">
-          <div>
+        <div className="flex flex-col md:flex-row gap-16 lg:gap-24 items-center">
+          <div className="w-full md:w-1/2">
             <h2 className="font-serif font-bold text-5xl md:text-6xl text-neutral mb-6">Mari Berbincang.</h2>
             <p className="text-neutral/80 mb-12 text-xl font-medium leading-relaxed">Kami menantikan cerita Anda. Tim kami akan segera merespon dengan personal.</p>
             <div className="space-y-10">
               <div className="flex gap-6 items-center">
                 <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shrink-0 shadow-lg"><Phone className="w-7 h-7 text-secondary" /></div>
-                <div><p className="text-xs uppercase tracking-widest text-neutral/60 font-extrabold mb-2">Telepon</p><p className="font-serif font-bold text-2xl">+62 812 3456 7890</p></div>
+                <div><p className="text-xs uppercase tracking-widest text-neutral/60 font-extrabold mb-2">Telepon</p><p className="font-serif font-bold text-2xl">+62 123 4567 8910</p></div>
               </div>
               <div className="flex gap-6 items-center">
                 <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shrink-0 shadow-lg"><Mail className="w-7 h-7 text-secondary" /></div>
@@ -708,22 +720,54 @@ function ContactSection() {
               </div>
             </div>
           </div>
-          <div className="bg-white p-10 md:p-12 rounded-[2.5rem] shadow-2xl border-2 border-neutral/5">
-            <form className="space-y-8">
+
+          <div className="w-full md:w-1/2 bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl border-2 border-neutral/5">
+            <form onSubmit={handleSubmit} className="space-y-8">
               <div>
-                <input type="text" placeholder="Nama Anda" className="w-full border-b-2 border-neutral/20 py-4 bg-transparent outline-none focus:border-secondary transition-colors text-lg font-bold text-neutral placeholder:text-neutral/40 placeholder:font-medium" />
+                <input required type="text" placeholder="Nama Anda" className="w-full border-b-2 border-neutral/20 py-4 bg-transparent outline-none focus:border-secondary transition-colors text-lg font-bold text-neutral placeholder:text-neutral/40 placeholder:font-medium" />
               </div>
               <div>
-                <input type="email" placeholder="Alamat Email" className="w-full border-b-2 border-neutral/20 py-4 bg-transparent outline-none focus:border-secondary transition-colors text-lg font-bold text-neutral placeholder:text-neutral/40 placeholder:font-medium" />
+                <input required type="email" placeholder="Alamat Email" className="w-full border-b-2 border-neutral/20 py-4 bg-transparent outline-none focus:border-secondary transition-colors text-lg font-bold text-neutral placeholder:text-neutral/40 placeholder:font-medium" />
               </div>
               <div>
-                <textarea placeholder="Ceritakan impian pernikahan Anda..." rows={4} className="w-full border-b-2 border-neutral/20 py-4 bg-transparent outline-none focus:border-secondary transition-colors resize-none text-lg font-bold text-neutral placeholder:text-neutral/40 placeholder:font-medium"></textarea>
+                <textarea required placeholder="Ceritakan impian pernikahan Anda..." rows={4} className="w-full border-b-2 border-neutral/20 py-4 bg-transparent outline-none focus:border-secondary transition-colors resize-none text-lg font-bold text-neutral placeholder:text-neutral/40 placeholder:font-medium"></textarea>
               </div>
-              <button type="button" className="w-full bg-neutral text-white py-5 rounded-full font-extrabold tracking-widest text-base uppercase hover:bg-secondary hover:shadow-xl transition-all mt-4">Kirim Pesan</button>
+              <button type="submit" className="w-full bg-neutral text-white py-5 rounded-full font-extrabold tracking-widest text-base uppercase hover:bg-secondary hover:shadow-xl transition-all mt-4">Kirim Pesan</button>
             </form>
           </div>
         </div>
       </div>
+
+      {/* POPUP OVERLAY */}
+      <AnimatePresence>
+        {showPopup && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[110] bg-neutral/80 backdrop-blur-sm flex items-center justify-center p-6"
+            onClick={() => setShowPopup(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: 50 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.8, y: 50 }}
+              className="bg-white max-w-lg w-full p-10 rounded-[3rem] shadow-2xl text-center relative border-4 border-secondary/20"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="w-20 h-20 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Sparkles className="w-10 h-10 text-secondary" />
+              </div>
+              <h3 className="font-serif font-bold text-4xl text-neutral mb-4">Pesan Terkirim!</h3>
+              <p className="text-neutral/70 text-lg font-medium leading-relaxed mb-8">
+                Terima kasih telah membagikan impian Anda. Tim Dxuan Wedding akan segera menghubungi Anda dengan penuh kehangatan.
+              </p>
+              <button
+                onClick={() => setShowPopup(false)}
+                className="bg-neutral text-white px-10 py-4 rounded-full font-extrabold tracking-widest uppercase hover:bg-secondary transition-colors shadow-lg"
+              >
+                Kembali
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
